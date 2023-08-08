@@ -8,14 +8,12 @@ help:
 
 # General
 .PHONY: setup
-setup: ## Init project
-	@ git init\
-	&& pip install -U pip poetry pre-commit\
-	&& poetry install \
-	&& docker compose -f ${DOCKER_COMPOSE_FILE} build --no-cache \
-	&& docker compose -f ${DOCKER_COMPOSE_FILE} up -d --build --force-recreate --renew-anon-volumes postgres \
-	&& pre-commit install \
-	&& docker compose -f ${DOCKER_COMPOSE_FILE} run admin python manage.py migrate
+setup: ## Setup the project
+	@sh scripts/setup && make update
+
+.PHONY: update
+update: ## Update all dependencies
+	@sh scripts/update
 
 # Docker
 .PHONY: build
@@ -79,13 +77,3 @@ mail: ## Start mailhog server
 .PHONY: validate
 validate: ## Run precommit for all files
 	@pre-commit run --all-files
-
-# UPDATE
-.PHONY: update
-update: ## Update all dependencies
-	@echo "Updating pre-commit plugins ..." \
-	&& pre-commit autoupdate \
-	&& echo "Updating pip and poetry ..." \
-	&& pip install -U pip poetry \
-	&& echo "Updating poetry dependencies ..." \
-	&& poetry update

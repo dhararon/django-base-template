@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data:Z
+      - local_postgres_data_backups:/backups:z
+    env-file:
+      - ../.envs/${ENVIRONMENT}/postgres.env

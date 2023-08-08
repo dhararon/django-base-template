@@ -66,8 +66,7 @@ target/
 
 # Environments
 .env
-.envs/*
-!.envs/.local/
+!.envs/example/
 .venv
 venv/
 ENV/

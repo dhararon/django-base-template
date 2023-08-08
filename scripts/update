@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+# UPDATE PRE-COMMIT PLUGINS
+echo "UPDATE: pre-commit"
+pre-commit autoupdate
+
+# UPDATE PIP AND POETRY
+echo "UPDATE: PIP & POETRY"
+pip install -U pip poetry poetry-plugin-up
+
+# UPDATE POETRY DEPENDENCIES
+echo "UPDATE: poetry dependencies"
+poetry up --latest

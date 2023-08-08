@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -u
+abort() {
+    echo "[ERROR] $@"
+  exit 1
+}
+
+
+# Verify if have python3
+if ! [ "$(python3 -V)" ]; then
+    abort "Python 3 is not installed";
+fi
+
+# Install dependencies
+pip install -U pip poetry poetry-plugin-up pre-commit
+
+# Install pre-commit scripts
+pre-commit install
+
+# Install poetry dependencies
+poetry install
+
+# Install branch-color
+/bin/bash -c "$(curl -fsSL https://gitlab.com/fairplay2/open-source/branch-color/-/raw/main/install.sh)"
+
+# Create local variables
+if [ -d ./envs/local ] ; then
+    echo "Local environment path already exists";
+  else
+  mkdir envs/local && cp envs/example/* envs/local/;
+fi
+
+# Create testing variables
+if [ -d ./envs/test ] ; then
+    echo "Test environment path already exists";
+  else
+  mkdir envs/test && cp envs/example/* envs/test/;
+fi
