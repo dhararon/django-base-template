@@ -1,0 +1,3 @@
+class AdminInterfaceConfig:
+    X_FRAME_OPTIONS = "SAMEORIGIN"
+    SILENCED_SYSTEM_CHECKS = ["security.W019"]
