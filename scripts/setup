@@ -25,15 +25,15 @@ poetry install
 /bin/bash -c "$(curl -fsSL https://gitlab.com/fairplay2/open-source/branch-color/-/raw/main/install.sh)"
 
 # Create local variables
-if [ -d ./envs/local ] ; then
+if [ -d ./.envs/local ] ; then
     echo "Local environment path already exists";
   else
-  mkdir envs/local && cp envs/example/* envs/local/;
+  mkdir .envs/local && cp .envs/example/* .envs/local/;
 fi
 
 # Create testing variables
-if [ -d ./envs/test ] ; then
+if [ -d ./.envs/test ] ; then
     echo "Test environment path already exists";
   else
-  mkdir envs/test && cp envs/example/* envs/test/;
+  mkdir .envs/test && cp .envs/example/* .envs/test/;
 fi
