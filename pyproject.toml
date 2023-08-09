@@ -48,6 +48,7 @@ src = ["src"]
 target-version = "py310"
 select = ["ALL"]
 ignore = [
+    "D",        # Remove all docstring error
     "ANN",      # Type hints related, let mypy/pyright handle these.
     "COM812",   # "Trailing comma missing". If black is happy, I'm happy.
     "D104",     # Missing docstring in public package
@@ -57,6 +58,9 @@ ignore = [
     "EM102",    # "Exception must not use an f-string literal, assign to variable first"
     "SIM108",   # "Use ternary operator ...". Ternary is harmful for readability in some cases.
     "TRY003",   # "Avoid specifying long messages outside the exception class"
+    "PGH004",   # Use specific rule codes when using `noqa`
+    "A003",     # Class attribute `id` is shadowing a Python builtin
+    "A002",     # Argument `format` is shadowing a Python builtin
 ]
 
 [tool.ruff.flake8-annotations]

@@ -1,9 +1,10 @@
-# Third Party Stuff
-# Third Party Stuff
+import logging
+
 from django.core.management.base import BaseCommand, CommandError
 
-# Django Base Template
 from apps.users.models import UserModel
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -12,14 +13,14 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("email", type=str)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # noqa:ARG002
         email = options["email"]
         try:
             user = UserModel.objects.get(email=email)
-        except UserModel.DoesNotExist:
-            raise CommandError(f"The {email} does not exists.")
+        except UserModel.DoesNotExist as e:
+            raise CommandError(f"The {email} does not exists.") from e
         else:
             user.is_staff = True
             user.is_superuser = True
             user.save()
-            print(f"{email} was converted to admin user")
+            logger.info("User was converted to admin user", extra={"email": email})

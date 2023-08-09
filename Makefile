@@ -15,6 +15,11 @@ setup: ## Setup the project
 update: ## Update all dependencies
 	@sh scripts/update
 
+# Pre commit
+.PHONY: fmt
+fmt: ## Run precommit for all files
+	@pre-commit run --all-files
+
 # Docker
 .PHONY: build
 build: ## Build or rebuild project
@@ -72,8 +77,3 @@ grant_staff: ## Grant staff privileges to user by email
 .PHONY: mailhog
 mail: ## Start mailhog server
 	@docker compose -f ${DOCKER_COMPOSE_FILE} up mailhog
-
-# Pre commit
-.PHONY: validate
-validate: ## Run precommit for all files
-	@pre-commit run --all-files

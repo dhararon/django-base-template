@@ -1,5 +1,8 @@
+from typing import ClassVar
+
+
 class BaseRestFrameworkConfig:
-    REST_FRAMEWORK = {
+    REST_FRAMEWORK: ClassVar[dict] = {
         "DEFAULT_RENDERER_CLASSES": [
             "rest_framework.renderers.JSONRenderer",
         ],
@@ -12,7 +15,7 @@ class BaseRestFrameworkConfig:
 
 
 class BaseSpectacularConfig:
-    SPECTACULAR_SETTINGS = {
+    SPECTACULAR_SETTINGS: ClassVar[dict] = {
         "TITLE": "template",
         "DESCRIPTION": "",
         "VERSION": "1.0.0",

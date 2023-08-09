@@ -21,8 +21,11 @@ repos:
     hooks:
       - id: black
         types: [python]
+        exclude: (migrations/|reports/)
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.282
     hooks:
       - id: ruff
+        exclude: (migrations/|reports/)
+        args: ["--fix"]

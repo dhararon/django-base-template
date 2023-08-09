@@ -3,7 +3,7 @@ from .dev import DevConfig
 
 class LocalConfig(DevConfig):
     @property
-    def INTERNAL_IPS(self):
+    def INTERNAL_IPS(self):  # noqa: N802
         # Standard Library
         import socket  # only if you haven't already imported this
 

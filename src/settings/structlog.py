@@ -1,7 +1,3 @@
-# Third Party Stuff
-pass
-pass
-# Third Party Stuff
 import structlog
 
 LOG_RECORD_ATTRIBUTES = {
@@ -31,10 +27,8 @@ LOG_RECORD_ATTRIBUTES = {
 BASIC_TYPES = (str, bool, int, float, type(None))
 
 
-def structlog_to_stdlib_adapter(logger, method_name, event_dict):
-    """
-    Pass the `event_dict` as `extra` keyword argument to the standard logger.
-    """
+def structlog_to_stdlib_adapter(logger, method_name, event_dict):  # noqa:ARG001
+    """Pass the `event_dict` as `extra` keyword argument to the standard logger."""
     exclude_keys = ["logger", "level"]
     event = event_dict.pop("event", "")
     for key in exclude_keys:
@@ -45,9 +39,7 @@ def structlog_to_stdlib_adapter(logger, method_name, event_dict):
         event_dict[key + "_"] = event_dict.pop(key)
     # Replace extra values of non-basic types with their string representation to make
     # sure they will become JSON-serializable (essential for logstash logging handler).
-    event_dict = {
-        k: v if isinstance(v, BASIC_TYPES) else repr(v) for k, v in event_dict.items()
-    }
+    event_dict = {k: v if isinstance(v, BASIC_TYPES) else repr(v) for k, v in event_dict.items()}
     kwargs = {
         "extra": event_dict,
         "exc_info": "exception" in event_dict,
@@ -55,16 +47,12 @@ def structlog_to_stdlib_adapter(logger, method_name, event_dict):
     return (event,), kwargs
 
 
-def extract_stdlib_extra(logger, method_name, event_dict):
+def extract_stdlib_extra(logger, method_name, event_dict):  # noqa:ARG001
     """
     Extract the `extra` key-values from the standard logger record
     and populate the `event_dict` with them.
     """
-    record_extra = {
-        k: v
-        for k, v in vars(event_dict["_record"]).items()
-        if k not in LOG_RECORD_ATTRIBUTES
-    }
+    record_extra = {k: v for k, v in vars(event_dict["_record"]).items() if k not in LOG_RECORD_ATTRIBUTES}
     event_dict.update(record_extra)
     return event_dict
 
@@ -90,7 +78,7 @@ class BaseStructlog:
         )
 
     @property
-    def LOGGING(self):
+    def LOGGING(self):  # noqa: N802
         return {
             "version": 1,
             "disable_existing_loggers": False,
@@ -123,9 +111,5 @@ class BaseStructlog:
                     "class": "logging.StreamHandler",
                     "formatter": "colored",
                 },
-                # 'sentry': {
-                #     'level': 'WARNING',
-                #     'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-                # }
             },
         }

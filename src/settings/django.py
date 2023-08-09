@@ -1,4 +1,5 @@
-# Third Party Stuff
+from typing import ClassVar
+
 from configurations import Configuration
 
 
@@ -18,7 +19,8 @@ class BaseInternationalizationConfig:
 
 
 class BaseMiddlewareConfig:
-    MIDDLEWARE = Configuration.MIDDLEWARE + [
+    MIDDLEWARE: ClassVar[dict] = [
+        *Configuration.MIDDLEWARE,
         "django.middleware.security.SecurityMiddleware",
         "whitenoise.middleware.WhiteNoiseMiddleware",  # Statics
         "django.contrib.sessions.middleware.SessionMiddleware",
@@ -34,7 +36,7 @@ class BaseMiddlewareConfig:
 
 class BaseTemplateConfig:
     @property
-    def TEMPLATES(self):
+    def TEMPLATES(self):  # noqa: N802
         return [
             {
                 "BACKEND": "django.template.backends.django.DjangoTemplates",

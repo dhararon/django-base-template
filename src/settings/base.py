@@ -1,5 +1,7 @@
 # Standard Library
 import os
+import sys
+from pathlib import Path
 
 # Third Party Stuff
 from configurations import Configuration
@@ -30,12 +32,19 @@ class BaseConfig(
     Configuration,
 ):
     # Debugging
-    DEBUG = bool(os.getenv("DEBUG", True))
+    DEBUG: bool = bool(os.getenv("DEBUG", "1"))
 
-    AUTH_USER_MODEL = "users.UserModel"
-    WSGI_APPLICATION = "wsgi.application"
-    APPEND_SLASH = True
+    AUTH_USER_MODEL: str = "users.UserModel"
+    WSGI_APPLICATION: str = "wsgi.application"
+    APPEND_SLASH: bool = True
 
     @property
-    def BASE_DIR(self):
-        return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    def BASE_DIR(self):  # noqa: N802
+        # Get /app/settings/common/base.py and get 2 parent for /app response
+        base_dir = Path(__file__).parents[2]
+
+        # Add apps and account_statement as PYTHONPATH
+        base_app_dir = base_dir / "apps"
+
+        sys.path.append(str(base_app_dir))
+        return base_dir
