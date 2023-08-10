@@ -9,7 +9,7 @@ help:
 # General
 .PHONY: setup
 setup: ## Setup the project
-	@sh scripts/setup
+	@sh scripts/setup && make build
 
 # Docker
 .PHONY: build
@@ -22,8 +22,8 @@ rebuild: ## Build with no cache option
 
 .PHONY: down
 down: ## Stop project
-	@docker compose -f ${DOCKER_COMPOSE_FILE} down bash
+	@docker compose -f ${DOCKER_COMPOSE_FILE} down
 
-.PHONY: bash
-bash: ## Start bash project
+.PHONY: up
+up: ## Start bash project
 	@docker compose -f ${DOCKER_COMPOSE_FILE} up -d bash && docker compose -f ${DOCKER_COMPOSE_FILE} exec bash zsh

@@ -3,6 +3,9 @@
 set -o errexit
 set -o nounset
 
+# Move to app
+cd /app
+
 # UPDATE PRE-COMMIT PLUGINS
 echo "UPDATE: pre-commit"
 pre-commit autoupdate

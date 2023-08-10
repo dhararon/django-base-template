@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -u
+abort() {
+    echo "[ERROR] $@"
+  exit 1
+}
+
+# Move to app
+cd /app
+
+# Install dependencies
+pip install -U pip poetry poetry-plugin-up
+
+# Install pre-commit scripts
+pre-commit install
+
+# Install poetry dependencies
+poetry install

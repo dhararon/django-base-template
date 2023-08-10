@@ -6,14 +6,11 @@ services:
       dockerfile: ./docker/${ENVIRONMENT}.dockerfile
     volumes:
       - type: bind
-        source: ../src
+        source: ../
         target: /app
       - type: bind
-        source: ../pyproject.toml
-        target: /app/pyproject.toml
-      - type: bind
-        source: ../.pre-commit-config.yaml
-        target: /app/.pre-commit-config.yaml
+        source: ../.git
+        target: /app/.git
     env_file:
       - ../.envs/${ENVIRONMENT}/django.env
       - ../.envs/${ENVIRONMENT}/mailhog.env

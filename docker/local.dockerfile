@@ -23,29 +23,22 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-RUN pip install -U pip poetry poetry-plugin-up pre-commit
-
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV BUILD_ENV ${BUILD_ENVIRONMENT}
 
-WORKDIR /app
-
-# Copy dependencies
-COPY ./pyproject.toml /app/pyproject.toml
-RUN poetry config virtualenvs.create false \
-  && poetry install
-
-RUN git init && pre-commit install
-
 #ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
-
 
 USER $USER_NAME
 # terminal colors with xterm
 ENV TERM xterm
-# set the zsh theme
-ENV ZSH_THEME agnoster
-RUN apt-get update \
-  && apt-get install -y zsh \
-  && wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
+    -t https://github.com/denysdovhan/spaceship-prompt \
+    -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
+    -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
+    -p git \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions
+
+WORKDIR /app

@@ -6,9 +6,10 @@ DOCKER_COMPOSE_FILE = docker-compose.yml
 help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-.PHONY: update
-update: ## Update all dependencies
-	@sh scripts/update
+# General
+.PHONY: setup
+setup: ## Setup the project
+	@sh ../scripts/python-setup
 
 # Pre commit
 .PHONY: fmt
