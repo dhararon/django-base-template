@@ -19,7 +19,7 @@ services:
     env_file:
       - ./.envs/${ENVIRONMENT}/postgres.env
 
-  api:
+  bash:
     extends:
       file: compose/service.app.yml
       service: app
@@ -31,5 +31,5 @@ services:
       - postgres:postgres
     ports:
       - "9000:9000"
-    #command: python manage.py runserver 0.0.0.0:9000
-    command: ls -la
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t

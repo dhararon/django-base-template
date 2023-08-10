@@ -270,3 +270,9 @@ tags
 village/media/
 
 .pytest_cache/
+
+
+# APP
+src/.git
+src/.pre-commit-config.yaml
+src/pyproject.toml

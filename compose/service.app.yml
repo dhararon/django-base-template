@@ -2,15 +2,18 @@ services:
   app:
     working_dir: /app
     build:
-      context: .
-      dockerfile: ../docker/${ENVIRONMENT}.dockerfile
+      context: ../
+      dockerfile: ./docker/${ENVIRONMENT}.dockerfile
     volumes:
       - type: bind
         source: ../src
         target: /app
       - type: bind
         source: ../pyproject.toml
-        target: /app
+        target: /app/pyproject.toml
+      - type: bind
+        source: ../.pre-commit-config.yaml
+        target: /app/.pre-commit-config.yaml
     env_file:
       - ../.envs/${ENVIRONMENT}/django.env
       - ../.envs/${ENVIRONMENT}/mailhog.env
