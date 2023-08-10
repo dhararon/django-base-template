@@ -17,4 +17,19 @@ services:
     networks:
       - "local-development"
     env_file:
-      - ../.envs/${ENVIRONMENT}/postgres.env
+      - ./.envs/${ENVIRONMENT}/postgres.env
+
+  api:
+    extends:
+      file: compose/service.app.yml
+      service: app
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.api.local
+      - DJANGO_CONFIGURATION=LocalConfig
+      - DJANGO_ROOT_URLCONF=urls.api
+    links:
+      - postgres:postgres
+    ports:
+      - "9000:9000"
+    #command: python manage.py runserver 0.0.0.0:9000
+    command: ls -la

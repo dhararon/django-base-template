@@ -24,7 +24,7 @@ repos:
         exclude: (migrations/|reports/)
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.283
+    rev: v0.0.284
     hooks:
       - id: ruff
         exclude: (migrations/|reports/)

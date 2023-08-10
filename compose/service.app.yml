@@ -1,0 +1,17 @@
+services:
+  app:
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: ../docker/${ENVIRONMENT}.dockerfile
+    volumes:
+      - type: bind
+        source: ../src
+        target: /app
+      - type: bind
+        source: ../pyproject.toml
+        target: /app
+    env_file:
+      - ../.envs/${ENVIRONMENT}/django.env
+      - ../.envs/${ENVIRONMENT}/mailhog.env
+      - ../.envs/${ENVIRONMENT}/postgres.env

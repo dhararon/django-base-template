@@ -25,22 +25,5 @@ ENV BUILD_ENV ${BUILD_ENVIRONMENT}
 
 WORKDIR ${APP_HOME}
 
-# Install dependencies
-COPY ./pyproject.toml /tmp
-
-RUN cd /tmp && poetry config virtualenvs.create false \
+RUN poetry config virtualenvs.create false \
   && poetry install
-
-
-COPY ./docker/entrypoint /entrypoint
-RUN sed -i 's/\r$//g' /entrypoint
-RUN chmod +x /entrypoint
-
-COPY ./docker/start /start
-RUN sed -i 's/\r$//g' /start
-RUN chmod +x /start
-
-# copy application code to WORKDIR
-COPY ./src ${APP_HOME}
-
-ENTRYPOINT ["/entrypoint"]
