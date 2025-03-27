@@ -1,0 +1,22 @@
+[
+  {
+    "model": "users.usermodel",
+    "pk": "42b8cd9b-eeb5-41f5-a66b-1939d7b3b9a1",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$VONLIaYIcsURBvD9KD32uu$nMwsl32coDf6nxSQkN+A87fzM20MrVcrbe2c/LUIah4=",
+      "status": "pending",
+      "status_changed": "2024-01-28T06:07:44.867Z",
+      "is_removed": false,
+      "email": "dharwin@codelovers.club",
+      "first_name": "",
+      "last_name": "",
+      "date_joined": "2024-01-28T06:07:44.992Z",
+      "last_login": null,
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

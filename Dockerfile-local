@@ -1,0 +1,61 @@
+# define an alias for the specfic python version used in this file.
+FROM python:3.12
+
+# Install apt packages
+RUN apt-get update && apt-get install --no-install-recommends -y \
+  # dependencies for building Python packages
+  build-essential \
+  # psycopg dependencies
+  libpq-dev \
+  # Translations dependencies
+  gettext \
+  # zsh for development
+  zsh \
+  # vim
+  vim \
+  # curl
+  curl \
+  fonts-powerline \
+  # cleaning up unused files
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN pip install -U pip uv
+
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV APP_HOME = /app
+ENV POETRY_VIRTUALENVS_CREATE 0
+ENV TERM xterm
+ENV UV_PROJECT_ENVIRONMENT="/usr/local/"
+
+USER $USER_NAME
+
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
+  -t https://github.com/denysdovhan/spaceship-prompt \
+  -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
+  -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
+  -p git \
+  -p https://github.com/zsh-users/zsh-autosuggestions \
+  -p https://github.com/zsh-users/zsh-completions
+
+WORKDIR ${APP_HOME}
+
+#ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
+
+# Install dependencies
+COPY ./pyproject.toml ${WORKDIR}
+RUN uv lock && uv sync --locked --all-extras --all-groups
+
+COPY ./docker/entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
+
+COPY ./docker/start /start
+RUN sed -i 's/\r$//g' /start
+RUN chmod +x /start
+
+# copy application code to WORKDIR
+COPY ./src ${APP_HOME}
+
+ENTRYPOINT ["/entrypoint"]

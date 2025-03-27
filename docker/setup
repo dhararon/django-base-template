@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# Check if .env file exists
+if [ -f .env.example ]; then
+    cp .env.example .env
+else
+    echo "No .env.example file found"
+    exit 1
+fi
+
+# Installing dependencies
+pip install -U pip uv pre-commit
+
+# Install pre-commit hooks
+pre-commit install
